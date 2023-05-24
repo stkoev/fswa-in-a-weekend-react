@@ -4,7 +4,7 @@ import { CATEGORIES } from "../data";
 
 function CategoryFilter() {
   const renderCategories = CATEGORIES.map((cat) => {
-    return <Category category={cat} key={cat.id} />;
+    return <Category category={cat} key={cat.color} />;
   });
   return (
     <aside>
