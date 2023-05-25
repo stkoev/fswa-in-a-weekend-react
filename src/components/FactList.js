@@ -7,7 +7,7 @@ function FactList({ facts }) {
   const rendredFacts = facts.map((fact) => {
     const categoryColor = CATEGORIES.find(
       (cat) => cat.name === fact.category
-    ).color;
+    )?.color;
     return <Fact fact={fact} categoryColor={categoryColor} key={fact.id} />;
   });
   return (
