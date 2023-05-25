@@ -13,12 +13,18 @@ function App() {
   const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
   const [facts, setFacts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(function () {
     async function getFacts() {
+      setIsLoading(true);
       const { data: facts, error } = await supabase.from("facts").select("*");
-      console.log(facts);
-      setFacts(() => facts || initialFacts);
+      if (!error) {
+        setFacts(() => facts || initialFacts);
+        setIsLoading(false);
+      } else {
+        alert("There was a problem loading data...");
+      }
     }
     getFacts();
   }, []);
@@ -43,7 +49,7 @@ function App() {
       ) : null}
       <main className="main">
         <CategoryFilter />
-        <FactList facts={facts} />
+        <FactList facts={facts} isLoading={isLoading} />
       </main>
     </>
   );
