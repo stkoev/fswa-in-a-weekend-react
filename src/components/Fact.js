@@ -1,9 +1,11 @@
 import React from "react";
 
 function Fact({ fact, categoryColor, handleVote, isUpdating }) {
+  const isDisputed = fact.votesFalse > fact.interesting + fact.votesMindBlowing;
   return (
     <li className="fact">
       <p>
+        {isDisputed && <span className="disputed">[🔴 DISPUTED 🔴]</span>}
         {fact.text}
         <a
           className="source"
