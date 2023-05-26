@@ -15,6 +15,7 @@ function App() {
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("all");
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(
     function () {
@@ -40,6 +41,21 @@ function App() {
     [currentCategory]
   );
 
+  async function handleVote(el, voteType) {
+    setIsUpdating(true);
+    const { data: updatedFact, error } = await supabase
+      .from("facts")
+      .update({ [voteType]: el[voteType] + 1 })
+      .eq("id", el.id)
+      .select();
+    setIsUpdating(false);
+
+    if (!error)
+      setFacts((facts) =>
+        facts.map((f) => (el.id === f.id ? updatedFact[0] : f))
+      );
+  }
+
   return (
     <>
       {/* HEADER */}
@@ -60,7 +76,13 @@ function App() {
       ) : null}
       <main className="main">
         <CategoryFilter setCurrentCategory={setCurrentCategory} />
-        <FactList facts={facts} isLoading={isLoading} />
+        <FactList
+          facts={facts}
+          setFacts={setFacts}
+          isLoading={isLoading}
+          handleVote={handleVote}
+          isUpdating={isUpdating}
+        />
       </main>
     </>
   );

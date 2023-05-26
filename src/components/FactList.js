@@ -4,7 +4,7 @@ import { CATEGORIES } from "../data";
 import Fact from "./Fact";
 import Loader from "./Loader";
 
-function FactList({ facts, isLoading }) {
+function FactList({ facts, setFacts, isLoading, handleVote, isUpdating }) {
   if (facts.length === 0 && !isLoading) {
     return (
       <p className="message">
@@ -17,7 +17,16 @@ function FactList({ facts, isLoading }) {
     const categoryColor = CATEGORIES.find(
       (cat) => cat.name === fact.category
     )?.color;
-    return <Fact fact={fact} categoryColor={categoryColor} key={fact.id} />;
+    return (
+      <Fact
+        fact={fact}
+        setFacts={setFacts}
+        categoryColor={categoryColor}
+        key={fact.id}
+        handleVote={handleVote}
+        isUpdating={isUpdating}
+      />
+    );
   });
 
   const factList = (

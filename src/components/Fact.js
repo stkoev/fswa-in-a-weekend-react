@@ -1,6 +1,6 @@
 import React from "react";
 
-function Fact({ fact, categoryColor }) {
+function Fact({ fact, categoryColor, handleVote, isUpdating }) {
   return (
     <li className="fact">
       <p>
@@ -23,9 +23,24 @@ function Fact({ fact, categoryColor }) {
         {fact.category}
       </span>
       <div className="vote-buttons">
-        <button>👍 {fact.votesInteresting}</button>
-        <button>🤯 {fact.votesMindblowing}</button>
-        <button>⛔️ {fact.votesFalse}</button>
+        <button
+          onClick={() => handleVote(fact, "interesting")}
+          disabled={isUpdating}
+        >
+          👍 {fact.interesting}
+        </button>
+        <button
+          onClick={() => handleVote(fact, "votesMindBlowing")}
+          disabled={isUpdating}
+        >
+          🤯 {fact.votesMindBlowing}
+        </button>
+        <button
+          onClick={() => handleVote(fact, "votesFalse")}
+          disabled={isUpdating}
+        >
+          ⛔️ {fact.votesFalse}
+        </button>
       </div>
     </li>
   );

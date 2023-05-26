@@ -67,7 +67,7 @@ function NewFactForm({
     console.log(newFact);
 
     // 4 Add new fact to UI
-    setFacts([...newFact, ...facts]);
+    if (!error) setFacts([...newFact, ...facts]);
     // 5. Reset input fields
     setText("");
     setSource("");
