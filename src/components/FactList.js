@@ -5,6 +5,14 @@ import Fact from "./Fact";
 import Loader from "./Loader";
 
 function FactList({ facts, isLoading }) {
+  if (facts.length === 0 && !isLoading) {
+    return (
+      <p className="message">
+        No Facts for this category yet! Create the first one 💥
+      </p>
+    );
+  }
+
   const rendredFacts = facts.map((fact) => {
     const categoryColor = CATEGORIES.find(
       (cat) => cat.name === fact.category

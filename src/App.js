@@ -14,20 +14,31 @@ function App() {
   const [category, setCategory] = useState("");
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all");
 
-  useEffect(function () {
-    async function getFacts() {
-      setIsLoading(true);
-      const { data: facts, error } = await supabase.from("facts").select("*");
-      if (!error) {
-        setFacts(() => facts || initialFacts);
-        setIsLoading(false);
-      } else {
-        alert("There was a problem loading data...");
+  useEffect(
+    function () {
+      async function getFacts() {
+        setIsLoading(true);
+
+        let query = supabase.from("facts").select("*");
+        if (currentCategory !== "all") {
+          query = query.eq("category", currentCategory);
+        }
+        const { data: facts, error } = await query.order("interesting", {
+          ascending: false,
+        });
+        if (!error) {
+          setFacts(() => facts || initialFacts);
+          setIsLoading(false);
+        } else {
+          alert("There was a problem loading data...");
+        }
       }
-    }
-    getFacts();
-  }, []);
+      getFacts();
+    },
+    [currentCategory]
+  );
 
   return (
     <>
@@ -48,7 +59,7 @@ function App() {
         />
       ) : null}
       <main className="main">
-        <CategoryFilter />
+        <CategoryFilter setCurrentCategory={setCurrentCategory} />
         <FactList facts={facts} isLoading={isLoading} />
       </main>
     </>

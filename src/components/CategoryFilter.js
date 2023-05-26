@@ -2,15 +2,26 @@ import React from "react";
 import Category from "./Category";
 import { CATEGORIES } from "../data";
 
-function CategoryFilter() {
+function CategoryFilter({ setCurrentCategory }) {
   const renderCategories = CATEGORIES.map((cat) => {
-    return <Category category={cat} key={cat.color} />;
+    return (
+      <Category
+        category={cat}
+        key={cat.color}
+        setCurrentCategory={setCurrentCategory}
+      />
+    );
   });
   return (
     <aside>
       <ul>
         <li className="category">
-          <button className="btn btn-all-categories">All</button>
+          <button
+            className="btn btn-all-categories"
+            onClick={() => setCurrentCategory("all")}
+          >
+            All
+          </button>
         </li>
         {renderCategories}
       </ul>
